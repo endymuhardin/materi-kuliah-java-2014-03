@@ -37,7 +37,31 @@ public class ContohEventHandling {
         btn4.addActionListener(h);
         btn5.addActionListener(h);
         
-        btn1.addMouseListener(new MyMouseListener());
+        btn1.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e){
+                JButton sumber = (JButton) e.getSource();
+                
+                System.out.println("Sumber event : "+sumber.getLabel());
+                String tombol = "Kiri";
+                if(MouseEvent.BUTTON1 == e.getButton()){
+                    tombol = "Kiri";
+                }
+                
+                if(MouseEvent.BUTTON2 == e.getButton()){
+                    tombol = "Tengah";
+                }
+                
+                if(MouseEvent.BUTTON3 == e.getButton()){
+                    tombol = "Kanan";
+                }
+                
+                System.out.println("Tombol "+tombol+" ditekan");
+            }
+            
+            public void mouseEntered(MouseEvent e){
+                System.out.println("Mouse Over");
+            }
+        });
         
         fr.setLayout(new FlowLayout());
         fr.add(btn1);
@@ -53,28 +77,6 @@ public class ContohEventHandling {
         public void actionPerformed(ActionEvent evt){
             JButton sumber = (JButton) evt.getSource();
             System.out.println("Label : "+sumber.getLabel());
-        }
-    }
-    
-    static class MyMouseListener extends MouseAdapter {
-        public void mouseClicked(MouseEvent e){
-            JButton sumber = (JButton) e.getSource();
-            
-            System.out.println("Sumber event : "+sumber.getLabel());
-            String tombol = "Kiri";
-            if(MouseEvent.BUTTON1 == e.getButton()){
-                tombol = "Kiri";
-            }
-            
-            if(MouseEvent.BUTTON2 == e.getButton()){
-                tombol = "Tengah";
-            }
-            
-            if(MouseEvent.BUTTON3 == e.getButton()){
-                tombol = "Kanan";
-            }
-            
-            System.out.println("Tombol "+tombol+" ditekan");
         }
     }
 }
