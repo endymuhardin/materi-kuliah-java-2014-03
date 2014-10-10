@@ -5,6 +5,9 @@
  */
 package com.muhardin.endy.belajar.swing.proses;
 
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JProgressBar;
 import javax.swing.ProgressMonitor;
 import javax.swing.SwingWorker;
@@ -34,7 +37,7 @@ public class ContohProsesLama extends javax.swing.JFrame {
 
         btnMulai = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtHasil = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -45,9 +48,9 @@ public class ContohProsesLama extends javax.swing.JFrame {
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtHasil.setColumns(20);
+        txtHasil.setRows(5);
+        jScrollPane1.setViewportView(txtHasil);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -74,27 +77,37 @@ public class ContohProsesLama extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnMulaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMulaiActionPerformed
-        SwingWorker worker = new SwingWorker() {
+        SwingWorker<Integer, Void> worker = new SwingWorker<Integer, Void>() {
             
             ProgressMonitor prog;
 
             @Override
-            protected Object doInBackground() throws Exception {
+            protected Integer doInBackground() throws Exception {
                 prog = new ProgressMonitor(ContohProsesLama.this, "Menjalankan background process", 
                         "", 0, 100);
                 
                 btnMulai.setEnabled(false);
 
                 ProsesLama p = new ProsesLama();
-                p.jalankan(prog);
-                return null;
+                Integer hasil = p.jalankan(prog);
+                return hasil;
             }
 
             @Override
             protected void done() {
-                btnMulai.setEnabled(true);
-                prog.setProgress(0);
-                prog.close();
+                try {
+                    Integer hasil = get();
+                    
+                    txtHasil.setText("Total waktu proses : "+hasil+" detik");
+                    
+                    btnMulai.setEnabled(true);
+                    prog.setProgress(0);
+                    prog.close();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ContohProsesLama.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ExecutionException ex) {
+                    Logger.getLogger(ContohProsesLama.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             
         };
@@ -141,6 +154,6 @@ public class ContohProsesLama extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMulai;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea txtHasil;
     // End of variables declaration//GEN-END:variables
 }

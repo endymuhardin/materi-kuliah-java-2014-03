@@ -7,14 +7,19 @@ import javax.swing.ProgressMonitor;
 
 public class ProsesLama {
     
-    public void jalankan(ProgressMonitor monitor){
+    public Integer jalankan(ProgressMonitor monitor){
         int perulangan = 10;
         
         Random r = new Random();
         
+        Integer totalWaktu = 0;
+        
         for(int i=0; i<perulangan; i++){
             try {
                 int delay = r.nextInt(10);
+                
+                totalWaktu += delay;
+                
                 Thread.sleep(delay * 1000);
                 System.out.println("Perulangan ke "+ (i+1));
 
@@ -25,5 +30,7 @@ public class ProsesLama {
                 Logger.getLogger(ProsesLama.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
+        return totalWaktu;
     }
 }
