@@ -1,10 +1,24 @@
 package com.muhardin.endy.belajar.swing.tabel;
 
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -46,6 +60,7 @@ public class DaftarKontak extends javax.swing.JFrame {
         tblKontak = new javax.swing.JTable();
         txtKataKunci = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        btnReport = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,24 +86,34 @@ public class DaftarKontak extends javax.swing.JFrame {
 
         jLabel1.setText("Kata Kunci");
 
+        btnReport.setText("Report");
+        btnReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(txtKataKunci)
                         .addGap(18, 18, 18)
-                        .addComponent(btnCari, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 1, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnCari, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnReport)))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnCari, btnReport});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -96,10 +121,11 @@ public class DaftarKontak extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCari)
                     .addComponent(txtKataKunci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(btnReport))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -124,6 +150,43 @@ public class DaftarKontak extends javax.swing.JFrame {
         
         txtKataKunci.setText("");
     }//GEN-LAST:event_btnCariActionPerformed
+
+    private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
+        try {
+            // 1. Load template JRXML
+            InputStream template = this.getClass().getResourceAsStream("/kontak_report.jrxml");
+            
+            // 2. Compile Report
+            JasperReport report = JasperCompileManager.compileReport(template);
+            
+            // 3. Fill (mengisi template dengan data
+            
+            // 3.a. Parameter
+            Date sekarang = new Date(); // waktu saat ini
+            Map<String, Object> reportParam = new HashMap<String, Object>();
+            reportParam.put("terakhirUpdate", sekarang);
+            
+            // 3.b. Data
+            KontakDao kd = new KontakDao();
+            List<Kontak> data = kd.cariSemua();
+            JRBeanCollectionDataSource dataSourceDariList = new JRBeanCollectionDataSource(data);
+            
+            // 3.c. Masukkan parameter dan data
+            JasperPrint jrprint = JasperFillManager.fillReport(report, reportParam, dataSourceDariList);
+            
+            // 4. Export jadi PDF dsb
+            String namaFileTujuan = "target/kontak.pdf";
+            JasperExportManager.exportReportToPdfFile(jrprint, namaFileTujuan);
+            
+            // 5. Tampilkan JasperViewer (hanya untuk aplikasi desktop)
+            JasperViewer.viewReport(jrprint);
+            
+        } catch (JRException ex) {
+            Logger.getLogger(DaftarKontak.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }//GEN-LAST:event_btnReportActionPerformed
 
     /**
      * @param args the command line arguments
@@ -162,6 +225,7 @@ public class DaftarKontak extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCari;
+    private javax.swing.JButton btnReport;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblKontak;
