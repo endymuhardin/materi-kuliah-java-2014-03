@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="kontak_report" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" uuid="39de6ff3-ca0b-4cda-92cb-6fdc8186f4cb">
+	<property name="ireport.zoom" value="1.1"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="terakhirUpdate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>
+	</parameter>
+	<field name="nama" class="java.lang.String"/>
+	<field name="tanggalLahir" class="java.util.Date"/>
+	<field name="aktif" class="java.lang.Boolean"/>
+	<variable name="jumlah" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="58" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="de6e190b-ec05-4c66-8dfb-0cbb3ee57187" x="0" y="0" width="555" height="38"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Daftar Kontak]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8be80492-9ded-4ade-934c-870002b79af1" x="0" y="38" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Terakhir update : ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="dd MMMMM yyyy HH:mm" isBlankWhenNull="true">
+				<reportElement uuid="867cf25c-9a9a-4509-a782-39d2efb34a54" x="100" y="38" width="147" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{terakhirUpdate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="332ef9b9-446f-4eb9-9af2-bcef083c9d81" x="0" y="0" width="100" height="20"/>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[Daftar Kontak]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="e1a9cb3b-eb2c-48da-89ff-557ce515bf6c" x="33" y="0" width="256" height="20"/>
+				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Nama]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5d047d2e-c12e-417b-bc2f-3bb4b2b80d1d" x="289" y="0" width="157" height="20"/>
+				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Tanggal Lahir]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5fd0790c-e6ad-4913-96da-f373019dc768" x="446" y="0" width="100" height="20"/>
+				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Aktif]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0850577b-5d3c-48b2-bc09-6aaf72168d7b" x="0" y="0" width="33" height="20"/>
+				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[No]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="24c22034-d12f-4cd4-8d4a-f0db00cbe81f" x="33" y="0" width="256" height="20"/>
+				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{nama}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yy">
+				<reportElement uuid="345ad93e-eedc-4e21-912c-ce1a01bd4110" x="289" y="0" width="157" height="20"/>
+				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{tanggalLahir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b5469ff6-3d95-4ed9-bac5-a2be2df32f1b" x="446" y="0" width="100" height="20"/>
+				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{aktif}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="036f0458-c976-4a29-8213-55463a2c1ee5" x="0" y="0" width="33" height="20"/>
+				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="529e3300-91aa-4e4f-998c-4cc7aeb9a3b5" x="413" y="0" width="49" height="20"/>
+				<textElement/>
+				<text><![CDATA[halaman]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="900ac13a-ffb8-48e3-a940-d0728095dfc6" x="462" y="0" width="31" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="e4617c17-4478-4a87-afaf-611ac53a1e08" x="493" y="0" width="26" height="20"/>
+				<textElement/>
+				<text><![CDATA[dari]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="841528cc-22f6-45fa-a774-73cbd6cd34ac" x="519" y="0" width="30" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
