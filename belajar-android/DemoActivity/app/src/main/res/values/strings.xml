@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">DemoActivity</string>
+    <string name="title_activity_input_nama">InputNama</string>
+    <string name="lbl_nama">Masukkan nama</string>
+    <string name="action_settings">Settings</string>
+    <string name="btn_ok">Ok</string>
+    <string name="title_activity_halo">HaloActivity</string>
+    <string name="hello_world">Hello world!</string>
+
+</resources>
