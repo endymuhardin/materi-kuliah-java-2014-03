@@ -1,11 +1,14 @@
 package com.muhardin.endy.belajar.android.demosqlite;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
 import com.muhardin.endy.belajar.android.demosqlite.R;
 
@@ -15,8 +18,17 @@ public class DemoSqliteActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String nama = "Endy Muhardin";
-        String email = "endy.muhardin@gmail.com";
+
+
+        setContentView(R.layout.activity_demo_sqlite);
+    }
+
+    public void simpan(View v){
+        EditText txtNama = ((EditText) findViewById(R.id.txtNama));
+        EditText txtEmail = ((EditText) findViewById(R.id.txtEmail));
+
+        String nama = txtNama.getText().toString();
+        String email = txtEmail.getText().toString();
 
         Log.d("DemoSqliteActivity", "Menginstankan MahasiswaDao");
         MahasiswaDao md = new MahasiswaDao(this);
@@ -26,12 +38,19 @@ public class DemoSqliteActivity extends ActionBarActivity {
         String sql = "INSERT INTO mahasiswa (nama, email) VALUES (?,?)";
 
         Log.d("DemoSqliteActivity", "Insert record ke tabel mahasiswa");
-        db.execSQL(sql, new Object[]{nama, email});
+        ContentValues data = new ContentValues();
+        data.put("nama", nama);
+        data.put("email", email);
+
+        Long idBaru = db.insert("mahasiswa", null, data);
+        Log.d("DemoSqliteActivity", "ID Record Baru : "+idBaru);
+
 
         Log.d("DemoSqliteActivity", "Tutup koneksi database");
         db.close();
 
-        setContentView(R.layout.activity_demo_sqlite);
+        txtNama.setText("");
+        txtEmail.setText("");
     }
 
 
