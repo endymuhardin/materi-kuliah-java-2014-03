@@ -1,6 +1,7 @@
 package com.muhardin.endy.belajar.android.demosqlite;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -35,7 +36,6 @@ public class DemoSqliteActivity extends ActionBarActivity {
 
         Log.d("DemoSqliteActivity", "Membuka koneksi ke database");
         SQLiteDatabase db = md.getWritableDatabase();
-        String sql = "INSERT INTO mahasiswa (nama, email) VALUES (?,?)";
 
         Log.d("DemoSqliteActivity", "Insert record ke tabel mahasiswa");
         ContentValues data = new ContentValues();
@@ -51,6 +51,9 @@ public class DemoSqliteActivity extends ActionBarActivity {
 
         txtNama.setText("");
         txtEmail.setText("");
+
+        Intent nextActivity = new Intent(this, DataMahasiswaActivity.class);
+        startActivity(nextActivity);
     }
 
 
