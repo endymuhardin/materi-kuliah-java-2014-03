@@ -1,10 +1,14 @@
 package com.muhardin.endy.belajar.android.demosqlite;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MahasiswaDao extends SQLiteOpenHelper {
     private static final Integer VERSI_DATABASE = 1;
@@ -20,9 +24,6 @@ public class MahasiswaDao extends SQLiteOpenHelper {
         super(context, NAMA_DATABASE, null, VERSI_DATABASE);
     }
 
-    public MahasiswaDao(Context context, String name, SQLiteDatabase.CursorFactory factory, int version, DatabaseErrorHandler errorHandler) {
-        super(context, name, factory, version, errorHandler);
-    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -34,5 +35,29 @@ public class MahasiswaDao extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // kosong saja, karena aplikasi versi pertama
+    }
+
+    public List<Mahasiswa> semuaMahasiswa() {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.query(
+                "mahasiswa", // nama tabel
+                new String[]{ // nama kolom
+                        "_id",
+                        "nama",
+                        "email"
+                },
+                null, null, null, null, null
+        );
+
+        List<Mahasiswa> hasil = new ArrayList<>();
+        while (c.moveToNext()){
+            Mahasiswa m = new Mahasiswa();
+            m.set_id(c.getInt(0));
+            m.setNama(c.getString(1));
+            m.setEmail(c.getString(2));
+            hasil.add(m);
+        }
+        db.close();
+        return hasil;
     }
 }
